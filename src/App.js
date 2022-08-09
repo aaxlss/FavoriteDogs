@@ -26,6 +26,12 @@ function App() {
     setFavoriteDogs([...newList]);
   }
 
+  const deleteFavDog = (favDogList) => {
+    const strigifiedDogList = JSON.stringify(favDogList);
+    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME,strigifiedDogList);
+    setFavoriteDogs([...favDogList]);
+  }
+
   const [dogsList, setDogsList] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
   const [favoriteDogs, setFavoriteDogs] = useState(parseDogsList);
@@ -106,10 +112,10 @@ useEffect(() => {
       </Carousel>}
       <button
         onClick={() => {
-          setFavoriteDogs(prev => {
-            const newFavoriteList = prev.filter((dog, index) => index != selectedDogDelete)
-            return newFavoriteList;
-          })
+          let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
+          console.log(newFavDogList)
+          deleteFavDog(newFavDogList);
+          
         }}
       >Delete from Favorites</button>
       </div>
