@@ -1,15 +1,21 @@
 import './App.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './Home';
+import Favorites from './Favorites';
 
 
 function App() {
 
   const LOCAL_STORAGE_DOGS_NAME = 'DOGS_LIST_V_1'
   const localStorageDogsList = localStorage.getItem(LOCAL_STORAGE_DOGS_NAME);
+
   let parseDogsList;
+
+  const storeDogs = (store) => {
+    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME, store);
+  }
 
   if (!localStorageDogsList) {
     localStorage.setItem(LOCAL_STORAGE_DOGS_NAME, JSON.stringify([]));
@@ -18,161 +24,29 @@ function App() {
     parseDogsList = JSON.parse(localStorageDogsList);
   }
 
-  const saveDogsList = (dogsList) => {
-    let newList = favoriteDogs;
-    newList.push(dogsList);
-    const strigifiedDogList = JSON.stringify(newList);
-    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME, strigifiedDogList);
-    setFavoriteDogs([...newList]);
-  }
-
-  const deleteFavDog = (favDogList) => {
-    const strigifiedDogList = JSON.stringify(favDogList);
-    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME, strigifiedDogList);
-    setFavoriteDogs([...favDogList]);
-  }
-
-  const [dogsList, setDogsList] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(0);
   const [favoriteDogs, setFavoriteDogs] = useState(parseDogsList);
-  const [selectedDogDelete, setSelectedDogDelete] = useState(0);
-  const [idList, setIdList] = useState(0);
-
-  const getDogList = () => {
-    fetch('https://random.dog/woof.json')
-      .then(response => response.json())
-      .then(response => {
-        let newDogList = dogsList;
-        newDogList.push(response);
-        console.log('newDogList', newDogList);
-        return newDogList;
-      })
-      .then(newDogList => {
-        setDogsList(prev => {
-          prev = newDogList;
-
-          return [...prev];
-        })
-      })
-
-  }
-
-  useEffect(() => {
-
-    if (dogsList.length < 6) {
-      console.log(dogsList.length);
-      getDogList();
-    }
-    setIdList(idList + 1);
-  }, [dogsList]);
-
-
-  useEffect(() => {
-    setIdList(idList + 1);
-  }, [favoriteDogs]);
-
-
 
   return (<BrowserRouter>
     {/* <Layout> */}
     <Routes>
-      <Route path="/" element={(<div key={idList}>
-        {dogsList.length > 0 && <Carousel
-          renderItem={item => item}
-          onChange={(imageIndex) => { setSelectedImage(imageIndex) }}
-        >
-          {
-            dogsList.map((dog, index) => (<div >
-              <img key={index} src={dog.url} />
-            </div>))
-          }
-        </Carousel>}
-
-        {/* Button to add the selected dog to the favorite list */}
-        <button
-          onClick={() => {
-            saveDogsList(dogsList[selectedImage]);
-          }}
-        >Add to Favorites</button>
-
-        <button
-          onClick={() => {
-            setDogsList([]);
-          }}
-        >Get new 6 dogs</button></div>)} />
-
-      {/* <Route exact path='/favorites' component={Favorites}/> */}
-      <Route exact path='/favorites' element={(<div key={idList}> {favoriteDogs.length > 0 && <Carousel
-        onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
-      >
-        {
-          favoriteDogs.map((dog) => (<div>
-            <img src={dog.url} />
-          </div>))
+      <Route path="/"
+        element={
+          <Home
+            favoriteDogs={favoriteDogs}
+            setFavoriteDogs={setFavoriteDogs}
+            storeDogs={storeDogs}
+          />
         }
-      </Carousel>}
-        <button
-          onClick={() => {
-            let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
-            console.log(newFavDogList)
-            deleteFavDog(newFavDogList);
-
-          }}
-        >Delete from Favorites</button>
-      </div>)} />
+      />
+      <Route exact path='/favorites' element={
+        <Favorites
+          storeDogs={storeDogs}
+          parseDogsList={parseDogsList}
+        />
+      } />
     </Routes>
     {/* </Layout> */}
   </BrowserRouter>);
-  // return (
-  //   <>
-  //     {/* list of dogs from URL */}
-  // <div key={idList}>
-  //   {dogsList.length > 0 && <Carousel
-  //   renderItem={item => item}
-  //     onChange={(imageIndex) => { setSelectedImage(imageIndex) }}
-  //   >
-  //     {
-  //       dogsList.map((dog, index) => (<div >
-  //         <img key={index} src={dog.url} />
-  //       </div>))
-  //     }
-  //   </Carousel>}
-
-  // {/* Button to add the selected dog to the favorite list */}
-  // <button
-  //   onClick={() => {
-
-  //     saveDogsList(dogsList[selectedImage]);
-  //   }}
-  // >Add to Favorites</button>
-
-  // <button
-  //   onClick={() => {
-  //     setDogsList([]);
-  //   }}
-  // >Get new 6 dogs</button>
-
-  //     {/* list of favorite dogs from URL */}
-  // {favoriteDogs.length > 0 && <Carousel
-  //   onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
-  // >
-  //   {
-  //     favoriteDogs.map((dog) => (<div>
-  //       <img src={dog.url} />
-  //     </div>))
-  //   }
-  // </Carousel>}
-  // <button
-  //   onClick={() => {
-  //     let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
-  //     console.log(newFavDogList)
-  //     deleteFavDog(newFavDogList);
-
-  //   }}
-  // >Delete from Favorites</button>
-  // </div>
-  //   </>
-  // );
 }
 
 export default App;
