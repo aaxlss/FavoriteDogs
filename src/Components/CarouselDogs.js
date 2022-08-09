@@ -9,7 +9,8 @@ const CarouselDogs = ({ onChange, children }) => {
                 width: "100%",
                 justifyContent: 'center',
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                marginTop: '2em'
             }}
         >
             <div style={{ width: '50%'}}>

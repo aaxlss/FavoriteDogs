@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './Home';
 import Favorites from './Favorites';
+import Layout from './Layout';
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
   const [favoriteDogs, setFavoriteDogs] = useState(parseDogsList);
 
   return (<BrowserRouter>
-    {/* <Layout> */}
+    <Layout>
     <Routes>
       <Route path="/"
         element={
@@ -45,7 +46,7 @@ function App() {
         />
       } />
     </Routes>
-    {/* </Layout> */}
+    </Layout>
   </BrowserRouter>);
 }
 
