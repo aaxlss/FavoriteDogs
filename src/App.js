@@ -29,23 +29,23 @@ function App() {
 
   return (<BrowserRouter>
     <Layout>
-    <Routes>
-      <Route path="/"
-        element={
-          <Home
-            favoriteDogs={favoriteDogs}
-            setFavoriteDogs={setFavoriteDogs}
-            storeDogs={storeDogs}
-          />
-        }
-      />
-      <Route exact path='/favorites' element={
-        <Favorites
-          storeDogs={storeDogs}
-          parseDogsList={parseDogsList}
+      <Routes>
+        <Route path="/"
+          element={
+            <Home
+              favoriteDogs={favoriteDogs}
+              setFavoriteDogs={setFavoriteDogs}
+              storeDogs={storeDogs}
+            />
+          }
         />
-      } />
-    </Routes>
+        <Route exact path='/favorites' element={
+          <Favorites
+            storeDogs={storeDogs}
+            parseDogsList={parseDogsList}
+          />
+        } />
+      </Routes>
     </Layout>
   </BrowserRouter>);
 }
