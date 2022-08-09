@@ -7,43 +7,70 @@ import { useEffect, useState } from 'react';
 
 function App() {
 
+  const LOCAL_STORAGE_DOGS_NAME = 'DOGS_LIST_V_1'
+  const localStorageDogsList = localStorage.getItem(LOCAL_STORAGE_DOGS_NAME);
+  let parseDogsList;
+
+  if(!localStorageDogsList){
+    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME, JSON.stringify([]));
+    parseDogsList = [];
+  } else {
+    parseDogsList = JSON.parse(localStorageDogsList);
+  }
+
+  const saveDogsList = (dogsList) => {
+    let newList = favoriteDogs;
+    newList.push(dogsList);
+    const strigifiedDogList = JSON.stringify(newList);
+    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME,strigifiedDogList);
+    setFavoriteDogs([...newList]);
+  }
+
   const [dogsList, setDogsList] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [favoriteDogs, setFavoriteDogs] = useState([]);
+  const [favoriteDogs, setFavoriteDogs] = useState(parseDogsList);
   const [selectedDogDelete, setSelectedDogDelete] = useState(0);
   const [idList, setIdList] = useState(0);
 
   const getDogList = () => {
-
-    for (let index = 0; index < 6; index++) {
       fetch('https://random.dog/woof.json')
         .then(response => response.json())
-        .then(response => setDogsList(prev => {
-          console.log('prev', prev)
-          if (prev.length < 6) {
-            prev.push(response);
-          }
-          return prev
-        }))
-        .then(() => setIdList(idList + 1))
+        .then(response => {
+          let newDogList = dogsList;
+          newDogList.push(response);
+          console.log('newDogList',newDogList);
+          return newDogList;
+        })
+        .then(newDogList  => {
+          setDogsList(prev => {
+            prev = newDogList;
 
-    }
+            return [...prev];
+          })
+        })
+
   }
 
-  useEffect(() => {
-    if(dogsList.length < 6){
-      setIdList(idList + 1);
-    }
-    
-  }, [idList]);
+useEffect(() => {
+ 
+  if(dogsList.length < 6){
+    console.log(dogsList.length);
+    getDogList();
+  }
+  setIdList(idList + 1);
+},[dogsList]);
 
+
+useEffect(() => {
+  setIdList(idList + 1);
+},[favoriteDogs]);
 
   return (
     <>
       {/* list of dogs from URL */}
       <div key={idList}>
         {dogsList.length > 0 && <Carousel
-        
+        renderItem={item => item}
           onChange={(imageIndex) => { setSelectedImage(imageIndex) }}
         >
           {
@@ -53,26 +80,22 @@ function App() {
           }
         </Carousel>}
 
-      </div>
       {/* Button to add the selected dog to the favorite list */}
       <button
         onClick={() => {
-          setFavoriteDogs(prev => {
 
-            return [...prev, dogsList[selectedImage]]
-          })
+          saveDogsList(dogsList[selectedImage]);
         }}
       >Add to Favorites</button>
 
       <button
         onClick={() => {
           setDogsList([]);
-          getDogList();
         }}
       >Get new 6 dogs</button>
 
       {/* list of favorite dogs from URL */}
-      <Carousel
+      {favoriteDogs.length > 0 && <Carousel
         onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
       >
         {
@@ -80,7 +103,7 @@ function App() {
             <img src={dog.url} />
           </div>))
         }
-      </Carousel>
+      </Carousel>}
       <button
         onClick={() => {
           setFavoriteDogs(prev => {
@@ -89,6 +112,7 @@ function App() {
           })
         }}
       >Delete from Favorites</button>
+      </div>
     </>
   );
 }
