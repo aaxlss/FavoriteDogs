@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ButtonDogs from "../Components/ButtonDogs";
 import CarouselDogs from "../Components/CarouselDogs";
 
-const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs}) => {
+const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs }) => {
     const [idList, setIdList] = useState(0);
     const [dogsList, setDogsList] = useState([]);
     const [selectedImage, setSelectedImage] = useState(0);
@@ -25,39 +25,43 @@ const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs}) => {
         let newList = favoriteDogs;
         newList.push(dogsList);
         const strigifiedDogList = JSON.stringify(newList);
-        console.log( JSON.stringify(newList))
+        console.log(JSON.stringify(newList))
         storeDogs(strigifiedDogList);
         setFavoriteDogs([...newList]);
     }
 
     const getDogList = () => {
         fetch('https://random.dog/woof.json')
-          .then(response => response.json())
-          .then(response => {
-            let newDogList = dogsList;
-            newDogList.push(response);
-            console.log('newDogList', newDogList);
-            return newDogList;
-          })
-          .then(newDogList => {
-            setDogsList(prev => {
-              prev = newDogList;
-    
-              return [...prev];
+            .then(response => response.json())
+            .then(response => {
+                let newDogList = dogsList;
+                newDogList.push(response);
+                return newDogList;
             })
-          })
-    
-      }
+            .then(newDogList => {
+                setDogsList(prev => {
+                    prev = newDogList;
+
+                    return [...prev];
+                })
+            })
+
+    }
 
     return (<div key={idList}>
         {dogsList.length > 0 && <CarouselDogs
-            renderItem={item => item}
             onChange={(imageIndex) => { setSelectedImage(imageIndex) }}
         >
             {
-                dogsList.map((dog, index) => (<div >
-                    <img key={index} src={dog.url} />
-                </div>))
+                dogsList.map((dog, index) => (
+                    <div style={{
+                        height: 'auto', 
+                        justifyContent: 'center',
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}>
+                        <img key={index} src={dog.url} style={{width:'50%'}}/>
+                    </div>))
             }
         </CarouselDogs>}
 

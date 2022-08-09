@@ -19,9 +19,15 @@ const Favorites = ({ storeDogs, parseDogsList }) => {
             onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
         >
             {
-                favoriteDogs.map((dog) => (<div>
-                    <img src={dog.url} />
-                </div>))
+                favoriteDogs.map((dog, index) => (
+                    <div style={{
+                        height: 'auto',
+                        justifyContent: 'center',
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}>
+                        <img key={index} src={dog.url} style={{width:'50%'}}/>
+                    </div>))
             }
         </CarouselDogs>}
         <ButtonDogs

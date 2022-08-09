@@ -3,13 +3,28 @@ import { Carousel } from "react-responsive-carousel";
 
 const CarouselDogs = ({ onChange, children }) => {
 
-    return (<Carousel
-        onChange={onChange}
-    >
-        {
-            children
-        }
-    </Carousel>);
+    return (
+        <div
+            style={{
+                width: "100%",
+                justifyContent: 'center',
+                display: 'flex',
+                alignItems: 'center'
+            }}
+        >
+            <div style={{ width: '50%'}}>
+                <Carousel
+                    swipeable={true}
+                    onChange={onChange}
+                >
+                    {
+                        children
+                    }
+                </Carousel>
+            </div>
+        </div>
+
+    );
 }
 
 export default CarouselDogs
