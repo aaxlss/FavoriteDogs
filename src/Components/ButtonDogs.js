@@ -1,11 +1,23 @@
 import React from "react";
 
-const ButtonDogs = ({onClick, text}) =>{
+
+
+const ButtonDogs = ({onClick, text, icon, style}) =>{
 
     return (
         <button
+            style={{
+                borderRadius: '8px',
+                padding: '1em',
+                border: 'none',
+                ...style
+            }}
             onClick={onClick}
-        >{text}</button>
+        >
+            {icon}
+            
+            {text}
+            </button>
     )
 }
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ButtonDogs from "../Components/ButtonDogs";
 import CarouselDogs from "../Components/CarouselDogs";
+import { AiOutlineFileImage,AiOutlineFileAdd } from "react-icons/ai";
 
 const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs }) => {
     const [idList, setIdList] = useState(0);
@@ -55,30 +56,45 @@ const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs }) => {
             {
                 dogsList.map((dog, index) => (
                     <div style={{
-                        height: 'auto', 
+                        height: 'auto',
                         justifyContent: 'center',
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                        <img key={index} src={dog.url} style={{width:'50%'}}/>
+                        <img key={index} src={dog.url} style={{ width: '50%' }} />
                     </div>))
             }
         </CarouselDogs>}
 
         {/* Button to add the selected dog to the favorite list */}
-        <ButtonDogs
-            onClick={() => {
-                saveDogsList(dogsList[selectedImage]);
+        <div
+            style={{
+                height: 'auto',
+                justifyContent: 'space-evenly',
+                alignContent: 'center',
+                display: 'flex',
+                alignItems: 'center'
             }}
-            text={'Add to Favorites'}
-        />
+        >
+            <ButtonDogs
+                onClick={() => {
+                    saveDogsList(dogsList[selectedImage]);
+                }}
+                icon={<AiOutlineFileAdd/>}
+                style={{background: '#23C973', color:'white'}}
+                text={'Add to Favorites'}
+            />
 
-        <ButtonDogs
-            onClick={() => {
-                setDogsList([]);
-            }}
-            text={'Get new 6 dogs'}
-        /></div>)
+            <ButtonDogs
+                onClick={() => {
+                    setDogsList([]);
+                }}
+                icon={<AiOutlineFileImage />}
+                style={{background: '#0C21D3', color:'white'}}
+                text={'Get new 6 dogs'}
+            />
+        </div>
+    </div>)
 };
 
 export default Home

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ButtonDogs from "../Components/ButtonDogs";
 import CarouselDogs from "../Components/CarouselDogs";
+import { AiFillDelete } from "react-icons/ai";
 
 const Favorites = ({ storeDogs, parseDogsList }) => {
 
@@ -26,19 +27,27 @@ const Favorites = ({ storeDogs, parseDogsList }) => {
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                        <img key={index} src={dog.url} style={{width:'50%'}}/>
+                        <img key={index} src={dog.url} style={{ width: '50%' }} />
                     </div>))
             }
         </CarouselDogs>}
-        <ButtonDogs
-            onClick={() => {
-                let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
-                console.log(newFavDogList)
-                deleteFavDog(newFavDogList);
+        <div style={{
+                        height: 'auto',
+                        justifyContent: 'center',
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}>
+            <ButtonDogs
+                onClick={() => {
+                    let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
+                    deleteFavDog(newFavDogList);
 
-            }}
-            text={'Delete from Favorites'}
-        />
+                }}
+                style={{background: 'red', color:'white'}}
+                icon={<AiFillDelete/>}
+                text={'Delete from Favorites'}
+            />
+        </div>
     </div>)
 
 }
