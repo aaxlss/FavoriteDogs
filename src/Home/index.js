@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Carousel } from "react-responsive-carousel";
+import ButtonDogs from "../Components/ButtonDogs";
+import CarouselDogs from "../Components/CarouselDogs";
 
 const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs}) => {
     const [idList, setIdList] = useState(0);
@@ -49,7 +50,7 @@ const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs}) => {
       }
 
     return (<div key={idList}>
-        {dogsList.length > 0 && <Carousel
+        {dogsList.length > 0 && <CarouselDogs
             renderItem={item => item}
             onChange={(imageIndex) => { setSelectedImage(imageIndex) }}
         >
@@ -58,20 +59,22 @@ const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs}) => {
                     <img key={index} src={dog.url} />
                 </div>))
             }
-        </Carousel>}
+        </CarouselDogs>}
 
         {/* Button to add the selected dog to the favorite list */}
-        <button
+        <ButtonDogs
             onClick={() => {
                 saveDogsList(dogsList[selectedImage]);
             }}
-        >Add to Favorites</button>
+            text={'Add to Favorites'}
+        />
 
-        <button
+        <ButtonDogs
             onClick={() => {
                 setDogsList([]);
             }}
-        >Get new 6 dogs</button></div>)
+            text={'Get new 6 dogs'}
+        /></div>)
 };
 
 export default Home

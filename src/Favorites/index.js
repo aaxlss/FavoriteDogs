@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Carousel } from "react-responsive-carousel";
+import ButtonDogs from "../Components/ButtonDogs";
+import CarouselDogs from "../Components/CarouselDogs";
 
 const Favorites = ({ storeDogs, parseDogsList }) => {
 
@@ -13,23 +14,25 @@ const Favorites = ({ storeDogs, parseDogsList }) => {
         setFavoriteDogs([...favDogList]);
     }
 
-    return (<div key={idList}> {favoriteDogs.length > 0 && <Carousel
-        onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
-    >
-        {
-            favoriteDogs.map((dog) => (<div>
-                <img src={dog.url} />
-            </div>))
-        }
-    </Carousel>}
-        <button
+    return (<div key={idList}> {favoriteDogs.length > 0 &&
+        <CarouselDogs
+            onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
+        >
+            {
+                favoriteDogs.map((dog) => (<div>
+                    <img src={dog.url} />
+                </div>))
+            }
+        </CarouselDogs>}
+        <ButtonDogs
             onClick={() => {
                 let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
                 console.log(newFavDogList)
                 deleteFavDog(newFavDogList);
 
             }}
-        >Delete from Favorites</button>
+            text={'Delete from Favorites'}
+        />
     </div>)
 
 }
