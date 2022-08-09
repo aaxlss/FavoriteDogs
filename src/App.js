@@ -2,7 +2,7 @@ import './App.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { useEffect, useState } from 'react';
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
   const localStorageDogsList = localStorage.getItem(LOCAL_STORAGE_DOGS_NAME);
   let parseDogsList;
 
-  if(!localStorageDogsList){
+  if (!localStorageDogsList) {
     localStorage.setItem(LOCAL_STORAGE_DOGS_NAME, JSON.stringify([]));
     parseDogsList = [];
   } else {
@@ -22,13 +22,13 @@ function App() {
     let newList = favoriteDogs;
     newList.push(dogsList);
     const strigifiedDogList = JSON.stringify(newList);
-    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME,strigifiedDogList);
+    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME, strigifiedDogList);
     setFavoriteDogs([...newList]);
   }
 
   const deleteFavDog = (favDogList) => {
     const strigifiedDogList = JSON.stringify(favDogList);
-    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME,strigifiedDogList);
+    localStorage.setItem(LOCAL_STORAGE_DOGS_NAME, strigifiedDogList);
     setFavoriteDogs([...favDogList]);
   }
 
@@ -39,44 +39,46 @@ function App() {
   const [idList, setIdList] = useState(0);
 
   const getDogList = () => {
-      fetch('https://random.dog/woof.json')
-        .then(response => response.json())
-        .then(response => {
-          let newDogList = dogsList;
-          newDogList.push(response);
-          console.log('newDogList',newDogList);
-          return newDogList;
-        })
-        .then(newDogList  => {
-          setDogsList(prev => {
-            prev = newDogList;
+    fetch('https://random.dog/woof.json')
+      .then(response => response.json())
+      .then(response => {
+        let newDogList = dogsList;
+        newDogList.push(response);
+        console.log('newDogList', newDogList);
+        return newDogList;
+      })
+      .then(newDogList => {
+        setDogsList(prev => {
+          prev = newDogList;
 
-            return [...prev];
-          })
+          return [...prev];
         })
+      })
 
   }
 
-useEffect(() => {
- 
-  if(dogsList.length < 6){
-    console.log(dogsList.length);
-    getDogList();
-  }
-  setIdList(idList + 1);
-},[dogsList]);
+  useEffect(() => {
+
+    if (dogsList.length < 6) {
+      console.log(dogsList.length);
+      getDogList();
+    }
+    setIdList(idList + 1);
+  }, [dogsList]);
 
 
-useEffect(() => {
-  setIdList(idList + 1);
-},[favoriteDogs]);
+  useEffect(() => {
+    setIdList(idList + 1);
+  }, [favoriteDogs]);
 
-  return (
-    <>
-      {/* list of dogs from URL */}
-      <div key={idList}>
+
+
+  return (<BrowserRouter>
+    {/* <Layout> */}
+    <Routes>
+      <Route path="/" element={(<div key={idList}>
         {dogsList.length > 0 && <Carousel
-        renderItem={item => item}
+          renderItem={item => item}
           onChange={(imageIndex) => { setSelectedImage(imageIndex) }}
         >
           {
@@ -86,22 +88,21 @@ useEffect(() => {
           }
         </Carousel>}
 
-      {/* Button to add the selected dog to the favorite list */}
-      <button
-        onClick={() => {
+        {/* Button to add the selected dog to the favorite list */}
+        <button
+          onClick={() => {
+            saveDogsList(dogsList[selectedImage]);
+          }}
+        >Add to Favorites</button>
 
-          saveDogsList(dogsList[selectedImage]);
-        }}
-      >Add to Favorites</button>
+        <button
+          onClick={() => {
+            setDogsList([]);
+          }}
+        >Get new 6 dogs</button></div>)} />
 
-      <button
-        onClick={() => {
-          setDogsList([]);
-        }}
-      >Get new 6 dogs</button>
-
-      {/* list of favorite dogs from URL */}
-      {favoriteDogs.length > 0 && <Carousel
+      {/* <Route exact path='/favorites' component={Favorites}/> */}
+      <Route exact path='/favorites' element={(<div key={idList}> {favoriteDogs.length > 0 && <Carousel
         onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
       >
         {
@@ -110,17 +111,68 @@ useEffect(() => {
           </div>))
         }
       </Carousel>}
-      <button
-        onClick={() => {
-          let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
-          console.log(newFavDogList)
-          deleteFavDog(newFavDogList);
-          
-        }}
-      >Delete from Favorites</button>
-      </div>
-    </>
-  );
+        <button
+          onClick={() => {
+            let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
+            console.log(newFavDogList)
+            deleteFavDog(newFavDogList);
+
+          }}
+        >Delete from Favorites</button>
+      </div>)} />
+    </Routes>
+    {/* </Layout> */}
+  </BrowserRouter>);
+  // return (
+  //   <>
+  //     {/* list of dogs from URL */}
+  // <div key={idList}>
+  //   {dogsList.length > 0 && <Carousel
+  //   renderItem={item => item}
+  //     onChange={(imageIndex) => { setSelectedImage(imageIndex) }}
+  //   >
+  //     {
+  //       dogsList.map((dog, index) => (<div >
+  //         <img key={index} src={dog.url} />
+  //       </div>))
+  //     }
+  //   </Carousel>}
+
+  // {/* Button to add the selected dog to the favorite list */}
+  // <button
+  //   onClick={() => {
+
+  //     saveDogsList(dogsList[selectedImage]);
+  //   }}
+  // >Add to Favorites</button>
+
+  // <button
+  //   onClick={() => {
+  //     setDogsList([]);
+  //   }}
+  // >Get new 6 dogs</button>
+
+  //     {/* list of favorite dogs from URL */}
+  // {favoriteDogs.length > 0 && <Carousel
+  //   onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
+  // >
+  //   {
+  //     favoriteDogs.map((dog) => (<div>
+  //       <img src={dog.url} />
+  //     </div>))
+  //   }
+  // </Carousel>}
+  // <button
+  //   onClick={() => {
+  //     let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
+  //     console.log(newFavDogList)
+  //     deleteFavDog(newFavDogList);
+
+  //   }}
+  // >Delete from Favorites</button>
+  // </div>
+  //   </>
+  // );
 }
 
 export default App;
