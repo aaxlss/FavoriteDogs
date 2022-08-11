@@ -15,7 +15,7 @@ const Favorites = ({ storeDogs, parseDogsList }) => {
         setFavoriteDogs([...favDogList]);
     }
 
-    return (<div key={idList}> {favoriteDogs.length > 0 &&
+    return (<div key={idList} style={{height:'100%'}}> {favoriteDogs.length > 0 &&
         <CarouselDogs
             onChange={(imageIndex) => { setSelectedDogDelete(imageIndex) }}
         >
