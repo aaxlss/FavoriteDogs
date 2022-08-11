@@ -3,7 +3,7 @@ import ButtonDogs from "../Components/ButtonDogs";
 import CarouselDogs from "../Components/CarouselDogs";
 import { AiFillDelete } from "react-icons/ai";
 
-const Favorites = ({ storeDogs, parseDogsList }) => {
+const Favorites = ({ storeDogs, parseDogsList, notify }) => {
 
     const [idList, setIdList] = useState(0);
     const [selectedDogDelete, setSelectedDogDelete] = useState(0);
@@ -41,7 +41,7 @@ const Favorites = ({ storeDogs, parseDogsList }) => {
                 onClick={() => {
                     let newFavDogList = favoriteDogs.filter((dog, index) => index != selectedDogDelete);
                     deleteFavDog(newFavDogList);
-
+                    notify('Dog removed from your favorite');
                 }}
                 style={{background: 'red', color:'white'}}
                 icon={<AiFillDelete/>}

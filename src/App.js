@@ -7,7 +7,7 @@ import Favorites from './Favorites';
 import Layout from './Layout';
 
 
-function App() {
+function App({notify}) {
 
   const LOCAL_STORAGE_DOGS_NAME = 'DOGS_LIST_V_1'
   const localStorageDogsList = localStorage.getItem(LOCAL_STORAGE_DOGS_NAME);
@@ -36,6 +36,7 @@ function App() {
               favoriteDogs={favoriteDogs}
               setFavoriteDogs={setFavoriteDogs}
               storeDogs={storeDogs}
+              notify={notify}
             />
           }
         />
@@ -43,6 +44,7 @@ function App() {
           <Favorites
             storeDogs={storeDogs}
             parseDogsList={parseDogsList}
+            notify={notify}
           />
         } />
       </Routes>

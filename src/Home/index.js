@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import ButtonDogs from "../Components/ButtonDogs";
 import CarouselDogs from "../Components/CarouselDogs";
 import { AiOutlineFileImage, AiOutlineFileAdd } from "react-icons/ai";
-import {NotificationContainer, NotificationManager} from 'react-notifications';
 
-const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs }) => {
+const Home = ({ favoriteDogs, setFavoriteDogs, storeDogs,notify }) => {
     const [idList, setIdList] = useState(0);
     const [dogsList, setDogsList] = useState([]);
     const [selectedImage, setSelectedImage] = useState(0);
@@ -87,6 +86,7 @@ return (<div key={idList} style={{height:'100%'}}>
         <ButtonDogs
             onClick={() => {
                 saveDogsList(dogsList[selectedImage]);
+                notify('Dog added successfully to your favorite dogs');
             }}
             icon={<AiOutlineFileAdd />}
             style={{ background: '#23C973', color: 'white' }}
@@ -96,7 +96,7 @@ return (<div key={idList} style={{height:'100%'}}>
         <ButtonDogs
             onClick={() => {
                 setDogsList([]);
-
+                notify('Getting 6 cute dogs for you');
             }}
             icon={<AiOutlineFileImage />}
             style={{ background: '#0C21D3', color: 'white' }}
@@ -104,6 +104,8 @@ return (<div key={idList} style={{height:'100%'}}>
         />
         
     </div>
+    
+
 </div>)
 };
 
