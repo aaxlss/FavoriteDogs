@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+# Webapp - 'favourite dogs'
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+With this web app you will be able to visualize 6 dogs in a carousel list where you can select any and added it to your favourite list. 
+Here there are 2 endpoints *Home* where you can see the list of 6 random dogs and *Favourites* you will be able to see the list of your favourite dogs that you have added previously, and you will be able to delete them from the list if you want.
 
-## Available Scripts
+In order to get this project in your machine, you should clone the repository with the next command:
 
-In the project directory, you can run:
+    git clone https://github.com/aaxlss/FavoriteDogs.git
 
-### `npm start`
+After you get the repository, you could run the next command to start the local server.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    npm start
+  
+  The server, by default, will run in the next URL
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+      http://localhost:3000/
 
-### `npm test`
+The project was planned to use third part components like the Carousel and the notifications as well as I created my how components.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The structure of the application has been divided by Home screen, Favourites screen, a Layout and a Header where the menu is.
 
-### `npm run build`
+# Improvements
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Home screen:** I would like to improve, adding a loading to show while the call to get the 6 dogs is processing. This will make the UI look better while the user is waiting for the information.
+**Favourite screen:** I would like to add a new button that help the user get rid of all the dogs with one single click. This will improve the time if the user wants to delete all of them. Also, include a warning message before to delete any dog, this will avoid deleting accidentally any information.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Carousel component**: set up this third component to show the information in a better way and adjust the images depending on the size of images.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Button component:** I would like to make the buttons with a better style to show the text, icon and add some effects when the user hover the button or click on it.
